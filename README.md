@@ -1,4 +1,4 @@
-# 🔐 Secret Leak Detector
+#Secret Leak Detector
 
 > Catch leaked API keys and credentials before they ever leave your laptop — a deterministic regex + entropy engine with an optional AI enrichment pass, not a black box.
 
@@ -9,7 +9,7 @@
 
 ---
 
-## 📑 Table of Contents
+## Table of Contents
 
 1. [Problem Statement](#-problem-statement)
 2. [The Solution](#-the-solution)
@@ -30,7 +30,7 @@
 
 ---
 
-## 🎯 Problem Statement
+## Problem Statement
 
 **Original PS:** Developers accidentally leak sensitive API keys, database credentials, and secret tokens into public source code repositories every day, leading to immediate security compromises. This project builds a pre-commit hook utility and backend that checks codebases for exposed secrets using regex pattern matching and entropy analysis — flagging unsecured credentials, alerting developers immediately, and tracking compliance metrics across a team.
 
@@ -38,26 +38,26 @@
 
 ---
 
-## 💡 The Solution
+## The Solution
 
 A **deterministic, rule-based** detection engine (regex + Shannon entropy → a signal-count confidence table) runs entirely locally and synchronously inside the pre-commit hook — no network call ever blocks a commit decision. Findings are then posted, fire-and-forget, to a backend that optionally enriches ambiguous findings with a Claude Haiku classification pass (real credential vs. placeholder/test value) — asynchronously, best-effort, and never able to affect the commit-blocking behavior that already happened locally.
 
 ---
 
-## ✨ Key Features
+## Key Features
 
 | Feature | What it does |
 |---|---|
-| 🔍 **Local, synchronous detection** | Regex + entropy scan runs entirely on the developer's machine — zero network dependency to block a bad commit |
-| 🧮 **Deterministic confidence classification** | HIGH/MEDIUM confidence from an explicit signal-count rule table — explainable, not a black box |
-| 🛰️ **Fire-and-forget backend sync** | Hook never waits on or retries the backend; if it's offline, findings queue locally (`.secretscan/offline_queue.jsonl`) instead of being lost |
-| 🧠 **Optional Haiku enrichment** | Async, best-effort second opinion on ambiguous findings — fails silently, never blocks anything |
-| 🎭 **Mandatory masking** | Raw secret values are never written to disk, logged, or transmitted — only the masked form exists past the point of detection |
-| 📊 **Compliance API** | `/findings`, `/stats`, and resolve endpoints for a dashboard to consume |
+|  **Local, synchronous detection** | Regex + entropy scan runs entirely on the developer's machine — zero network dependency to block a bad commit |
+|  **Deterministic confidence classification** | HIGH/MEDIUM confidence from an explicit signal-count rule table — explainable, not a black box |
+|  **Fire-and-forget backend sync** | Hook never waits on or retries the backend; if it's offline, findings queue locally (`.secretscan/offline_queue.jsonl`) instead of being lost |
+|  **Optional Haiku enrichment** | Async, best-effort second opinion on ambiguous findings — fails silently, never blocks anything |
+|  **Mandatory masking** | Raw secret values are never written to disk, logged, or transmitted — only the masked form exists past the point of detection |
+| **Compliance API** | `/findings`, `/stats`, and resolve endpoints for a dashboard to consume |
 
 ---
 
-## 🥊 Why This Is Different
+## Why This Is Different
 
 | Tool | Strength | Documented Gap |
 |---|---|---|
@@ -70,7 +70,7 @@ No existing free tool achieves both high precision and high recall simultaneousl
 
 ---
 
-## 🏗️ System Architecture
+## System Architecture
 
 ### A. State Machine (what happens on every `git commit`)
 
@@ -84,7 +84,7 @@ No existing free tool achieves both high precision and high recall simultaneousl
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 | Layer | Choice | Notes |
 |---|---|---|
@@ -98,7 +98,7 @@ No existing free tool achieves both high precision and high recall simultaneousl
 
 ---
 
-## 🗃️ Data Model & Confidence Logic
+## Data Model & Confidence Logic
 
 ![Finding schema table and deterministic confidence classification rule](./data_model_confidence_logic.png)
 
@@ -106,7 +106,7 @@ No existing free tool achieves both high precision and high recall simultaneousl
 
 ---
 
-## 🚀 Getting Started (Local Install)
+##Getting Started (Local Install)
 
 ### Prerequisites
 - Python 3.11+
@@ -117,7 +117,7 @@ No existing free tool achieves both high precision and high recall simultaneousl
 ### 1. Backend
 
 ```bash
-git clone https://github.com/<your-org>/secret-leak-detector.git
+git c lone https://github.com/<your-org>/secret-leak-detector.git
 cd secret-leak-detector
 pip install -r requirements.txt
 
@@ -140,7 +140,7 @@ Every `git commit` in that repo now runs the hook automatically — no further s
 
 ---
 
-## 📡 API Reference
+##API Reference
 
 ![Health check and submit-a-finding curl commands](./api_reference_1_health_submit.png)
 
@@ -148,9 +148,8 @@ Every `git commit` in that repo now runs the hook automatically — no further s
 
 ---
 
-## ☁️ Deployment
-
-⚠️ **Change from the earlier plan:** the original plan deployed everything to Vercel. That works for a static frontend, but **not for this backend** — Vercel's serverless functions have an ephemeral filesystem, so SQLite data would not persist between requests.
+## Deployment
+**Change from the earlier plan:** the original plan deployed everything to Vercel. That works for a static frontend, but **not for this backend** — Vercel's serverless functions have an ephemeral filesystem, so SQLite data would not persist between requests.
 
 **Recommended split:**
 
@@ -168,9 +167,9 @@ Every `git commit` in that repo now runs the hook automatically — no further s
 
 ---
 
-## 📈 Feasibility & Viability
+## Feasibility & Viability
 
-**Technical feasibility:** ✅ High, and further de-risked by the deterministic design — the core HIGH/MEDIUM classification is an explicit rule table, not a model that needs training or tuning under time pressure. The optional Haiku layer is architected to fail gracefully, so the whole system degrades to "regex+entropy only" rather than breaking if the AI call is unavailable.
+**Technical feasibility:** High, and further de-risked by the deterministic design — the core HIGH/MEDIUM classification is an explicit rule table, not a model that needs training or tuning under time pressure. The optional Haiku layer is architected to fail gracefully, so the whole system degrades to "regex+entropy only" rather than breaking if the AI call is unavailable.
 
 **Market viability:** GitGuardian's 2025 monitoring found over 12.8 million hardcoded secrets in public GitHub repos — a 28% year-over-year increase — while their own enterprise pricing already proves willingness to pay for this category. The specific gap this project targets (affordable, explainable, low-false-positive detection) is unserved at the free/campus/SME tier.
 
@@ -178,7 +177,7 @@ Every `git commit` in that repo now runs the hook automatically — no further s
 
 ---
 
-## ⚠️ Known Limitations (Explicit Non-Goals)
+## Known Limitations (Explicit Non-Goals)
 
 These are intentionally out of scope for this component, not oversights:
 
@@ -190,7 +189,7 @@ These are intentionally out of scope for this component, not oversights:
 
 ---
 
-## 🗺️ Roadmap
+##Roadmap
 
 - [ ] Point the dashboard's data layer at the real `GET /findings` and `GET /stats` endpoints (currently the most important integration step)
 - [ ] Git-history scanning (Gate 2, catches secrets that predate the hook)
@@ -201,21 +200,10 @@ These are intentionally out of scope for this component, not oversights:
 
 ---
 
-## 📚 Research & References
+##Research & References
 
 - Basak, S. K., Cox, J., Reaves, B., & Williams, L. (2023). *A Comparative Study of Software Secrets Reporting by Secret Detection Tools*. ESEM 2023 — benchmarked precision/recall across nine tools, source of the "no tool has both high precision and high recall" finding
 - GitGuardian, *State of Secrets Sprawl* (2025) — 12.8M+ secrets found in public GitHub repos, 28% YoY increase
 - *Secret Breach Detection in Source Code with Large Language Models* (2025) — hybrid regex + LLM classification approach validating this project's core architecture
 - *IssueGuard: Real-Time Secret Leak Prevention Tool for GitHub Issue Reports* (2026) — CodeBERT-based classification, 92.70% F1-score reducing false positives
-
----
-
-## 👥 Team
-
-_Add your team name, member names, and roles here._
-
----
-
-## 📄 License
-
-This project is licensed under the [MIT License](https://opensource.org/licenses/MIT).
+- 
