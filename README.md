@@ -1,4 +1,4 @@
-Secret Leak Detector
+# 🔐 Secret Leak Detector
 
 > Catch leaked API keys and credentials before they ever leave your laptop — a deterministic regex + entropy engine with an optional AI enrichment pass, not a black box.
 
@@ -9,7 +9,7 @@ Secret Leak Detector
 
 ---
 
-Table of Contents
+## 📑 Table of Contents
 
 1. [Problem Statement](#-problem-statement)
 2. [The Solution](#-the-solution)
@@ -30,7 +30,7 @@ Table of Contents
 
 ---
 
-Problem Statement
+## 🎯 Problem Statement
 
 **Original PS:** Developers accidentally leak sensitive API keys, database credentials, and secret tokens into public source code repositories every day, leading to immediate security compromises. This project builds a pre-commit hook utility and backend that checks codebases for exposed secrets using regex pattern matching and entropy analysis — flagging unsecured credentials, alerting developers immediately, and tracking compliance metrics across a team.
 
